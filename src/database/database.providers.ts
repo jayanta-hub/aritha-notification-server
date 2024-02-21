@@ -7,6 +7,7 @@ import { Appdetails } from 'src/app-details/app.entity';
 import { Permission } from 'src/permission/permission.entity';
 import { Users_roles } from 'src/user_roles/user_role.entity';
 import { Super_admin } from 'src/superadmin/superadmin.entity';
+import { User_type } from 'src/usertype/userType.entity';
 
 export const databaseProviders = [
   {
@@ -23,7 +24,13 @@ export const databaseProviders = [
         Permission,
         Users_roles,
         Super_admin,
+        User_type,
       ]);
+
+      // sequelize.beforeCreate(function (model) {
+      //   console.log('🚀 ~ model:', model);
+      //   model.set('id', randomUUID());
+      // });
 
       // * Add Relation
       addRelations();
@@ -67,4 +74,7 @@ export class Database {
 
 function addRelations() {
   Users.belongsTo(Org, { foreignKey: 'orgid', targetKey: 'id' });
+  Users_roles.belongsTo(Users, { foreignKey: 'userid', targetKey: 'id' });
+  Users_roles.belongsTo(Roles, { foreignKey: 'role', targetKey: 'title' });
+  Appdetails.belongsTo(Org, { foreignKey: 'orgid', targetKey: 'id' });
 }

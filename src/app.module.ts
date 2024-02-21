@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
@@ -14,6 +13,9 @@ import { PermissionModule } from './permission/permission.module';
 import { AppDetailsModule } from './app-details/app-details.module';
 import { UserRolesModule } from './user_roles/user_roles.module';
 import { SuperadminModule } from './superadmin/superadmin.module';
+import { UsertypeController } from './usertype/usertype.controller';
+import { UsertypeModule } from './usertype/usertype.module';
+import { UsertypeService } from './usertype/usertype.service';
 
 @Module({
   imports: [
@@ -28,8 +30,15 @@ import { SuperadminModule } from './superadmin/superadmin.module';
     AppDetailsModule,
     UserRolesModule,
     SuperadminModule,
+    UsertypeModule,
   ],
-  controllers: [AppController, UserController, RolesController],
-  providers: [AppService, AuthService, UserService, RolesService],
+  controllers: [UserController, RolesController, UsertypeController],
+  providers: [
+    AppService,
+    AuthService,
+    UserService,
+    RolesService,
+    UsertypeService,
+  ],
 })
 export class AppModule {}

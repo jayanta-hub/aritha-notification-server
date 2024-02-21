@@ -13,7 +13,7 @@ import { UserRolesService } from 'src/user_roles/user_roles.service';
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '10s' },
+      signOptions: { expiresIn: '60m' },
     }),
   ],
   providers: [AuthService, UserRolesService],

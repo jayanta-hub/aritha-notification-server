@@ -8,15 +8,20 @@ import {
 } from 'class-validator';
 export class SingupDto {
   @ApiProperty({
-    description: 'The User',
-    example: 'Jayanta',
+    description:
+      'The Username for login. Username have minimun 6 characters including letters, number and special characters',
+    example: 'Jayanta@123!',
   })
   @IsString()
-  @MaxLength(20)
+  @MinLength(8)
+  @MaxLength(32)
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    message: 'password is too weak',
+  })
   username: string;
 
   @ApiProperty({
-    description: 'The User firstname',
+    description: 'The User firstname.',
     example: 'Jayanta',
   })
   @IsString()
@@ -58,22 +63,25 @@ export class SingupDto {
   email: string;
 
   @ApiProperty({
-    description: 'The roleid of the User',
-    example: 'kamqdq121',
-  })
-  @ApiProperty({
-    description: 'The orgid',
+    description: 'The user belongs to the Which organization',
     example: 'jkn2112b3jh12b3',
   })
   @IsString()
-  orgid: string;
+  orgid?: string;
 
   @ApiProperty({
-    description: 'The permissionid',
+    description: 'App Details belongs to the user',
     example: 'jkn2112b3jh12b3',
   })
   @IsArray()
-  appdetails: object[];
+  appdetails?: object[];
+
+  @ApiProperty({
+    description: 'Type of user',
+    example: 'SUPERADMIN || ORGADMIN ||ORGUSER',
+  })
+  @IsString()
+  userType: string;
 }
 export class SigninDto {
   @ApiProperty({

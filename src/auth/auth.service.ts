@@ -3,10 +3,9 @@ import { Users } from './users.entity';
 import { randomUUID } from 'crypto';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { Roles } from 'src/role/roles.entity';
 import { Org } from 'src/org/ogr.entity';
 import { UserRolesService } from 'src/user_roles/user_roles.service';
-import { Users_roles } from 'src/user_roles/user_role.entity';
+import { Super_admin } from 'src/superadmin/superadmin.entity';
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
@@ -70,50 +69,40 @@ export class AuthService {
   }
   async signIn(userInfoDto: any) {
     if (!userInfoDto) throw new UnauthorizedException('EMPTY');
+    const users = await Promise.all([
+      Users.findOne({ where: { username: userInfoDto.username } }),
+      Super_admin.findOne({ where: { username: userInfoDto.username } }),
+    ]);
+    const user = users.find((u) => u); // Get the first found user
     try {
-      const user = await Users.findOne({
-        where: {
-          username: userInfoDto.username,
-        },
-      });
       // Compare the hash password
-
       if (!user) {
         throw new UnauthorizedException('User doesnot exist');
       }
       const isMatch = await bcrypt.compare(userInfoDto.password, user.password);
       if (!isMatch) {
-        throw new UnauthorizedException('Invalid credentials');
+        throw new UnauthorizedException('Invalid Password');
       }
-
+      const isSuperAdmin = user instanceof Super_admin;
       const payload = {
         sub: user.password,
         username: user.username,
+        scope: isSuperAdmin ? 'SUPERADMIN' : 'APPLICATIONUSER',
       };
       const accessToken = await this.jwtService.signAsync(payload);
-      const isSuperAdmin = await Users_roles.findAll({
-        where: {
-          userid: user.id,
-        },
-      });
-      const a = isSuperAdmin.filter((e) => e.role === 'SuperAdmin');
       return {
         status: 200,
         data: {
           userId: user?.id,
           username: user?.username,
-          password: user?.password,
+          // password: user?.password,
           orgid: user?.orgid,
-          access_token: accessToken,
-          isSuperAdmin: a.length > 0 ? true : false,
+          token: accessToken,
         },
         message: 'Login successful',
       };
     } catch (error) {
       throw new UnauthorizedException('Invalid credentials');
     }
-  }
-  async userProfile(userProfileDto: any) {
-    console.log('first', userProfileDto);
   }
 }

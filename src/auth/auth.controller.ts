@@ -4,16 +4,13 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SigninDto, SingupDto } from './dto/auth-credentials.dto';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { ApiBearerAuth } from '@nestjs/swagger';
 
-@Controller('auth/user')
+@Controller('auth/users')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
@@ -27,12 +24,5 @@ export class AuthController {
   @UsePipes(new ValidationPipe())
   signUp(@Body() authCredentialsDto: SingupDto) {
     return this.authService.signUp(authCredentialsDto);
-  }
-  @ApiBearerAuth() // for swagger
-  @UseGuards(AuthGuard)
-  @Post('/user/profile')
-  @UsePipes(new ValidationPipe())
-  userProfile(@Body() userProfileDto: any) {
-    return this.authService.userProfile(userProfileDto);
   }
 }

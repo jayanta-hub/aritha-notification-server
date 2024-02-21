@@ -9,7 +9,9 @@ export class Users_roles extends Model {
   })
   id: string;
 
-  @Column({ type: DataType.STRING })
+  @Column({
+    type: DataType.UUID,
+  })
   userid: string;
 
   @Column({ type: DataType.STRING })
@@ -21,3 +23,16 @@ export class Users_roles extends Model {
   @Column({ type: DataType.JSON })
   permission: string[];
 }
+// Users_roles.beforeSave((instance) => {
+//   // Retrieve the user instance based on the current userid
+//   const user = Users.findByPk(instance.userid);
+
+//   if (user) {
+//     // Update the userid with the value from the User model
+//     instance.userid = user.id;
+//   } else {
+//     // Handle the case where the user is not found
+//     console.error('User not found with id:', instance.userid);
+//     // You might want to throw an error or take other corrective actions
+//   }
+// });

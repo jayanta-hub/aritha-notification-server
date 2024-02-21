@@ -6,6 +6,7 @@ export class Users extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,
+    // defaultValue: DataType.UUIDV4,
   })
   id: string;
 
@@ -30,3 +31,7 @@ export class Users extends Model {
   @Column({ type: DataType.UUID })
   orgid: string;
 }
+
+// Users.beforeSave(()=>{
+
+// });
