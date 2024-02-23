@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsArray,
+  IsOptional,
   IsString,
   Matches,
   MaxLength,
@@ -9,15 +10,16 @@ import {
 export class SingupDto {
   @ApiProperty({
     description:
-      'The Username for login. Username have minimun 6 characters including letters, number and special characters',
+      'The Username for login. Username have minimun 4 characters including letters, number and special characters',
     example: 'Jayanta@123!',
   })
   @IsString()
-  @MinLength(8)
+  @MinLength(4)
+  @IsOptional()
   @MaxLength(32)
-  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-    message: 'password is too weak',
-  })
+  // @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+  //   message: 'Username is too weak',
+  // })
   username: string;
 
   @ApiProperty({
@@ -25,6 +27,7 @@ export class SingupDto {
     example: 'Jayanta',
   })
   @IsString()
+  @IsOptional()
   firstname: string;
 
   @ApiProperty({
@@ -32,6 +35,7 @@ export class SingupDto {
     example: 'Jayanta',
   })
   @IsString()
+  @IsOptional()
   lastname: string;
 
   @ApiProperty({
@@ -39,11 +43,12 @@ export class SingupDto {
     example: 'Password@123',
   })
   @IsString()
-  @MinLength(8)
+  @MinLength(4)
   @MaxLength(32)
   @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
     message: 'password is too weak',
   })
+  @IsOptional()
   password: string;
 
   @ApiProperty({
@@ -53,6 +58,7 @@ export class SingupDto {
   @IsString()
   @MinLength(10)
   @MaxLength(10)
+  @IsOptional()
   phone: string;
 
   @ApiProperty({
@@ -60,6 +66,7 @@ export class SingupDto {
     example: 'jayanta.Garu@gmail.com',
   })
   @IsString()
+  @IsOptional()
   email: string;
 
   @ApiProperty({
@@ -67,14 +74,25 @@ export class SingupDto {
     example: 'jkn2112b3jh12b3',
   })
   @IsString()
-  orgid?: string;
+  @IsOptional()
+  @IsOptional()
+  orgid: string;
 
   @ApiProperty({
     description: 'App Details belongs to the user',
     example: 'jkn2112b3jh12b3',
   })
   @IsArray()
-  appdetails?: object[];
+  @IsOptional()
+  appdetails: object[];
+
+  @ApiProperty({
+    description: 'Org Name',
+    example: 'Garu',
+  })
+  @IsString()
+  @IsOptional()
+  orgname: string;
 
   @ApiProperty({
     description: 'Type of user',

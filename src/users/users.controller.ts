@@ -13,7 +13,7 @@ import { AuthGuard } from '../guards/auth.guard';
 import { ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 
 @ApiBearerAuth()
-@Controller('user')
+@Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
   // @UseGuards(AuthGuard)
@@ -22,7 +22,7 @@ export class UserController {
   //   return this.userService.getAll();
   // }
   @UseGuards(AuthGuard)
-  @Delete('delete/:id')
+  @Delete(':id')
   @ApiParam({
     name: 'id',
     type: 'string',
@@ -35,8 +35,15 @@ export class UserController {
   @ApiBearerAuth() // for swagger
   @UseGuards(AuthGuard)
   @Get('/profile/:id')
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'userid to fetch user profile',
+    type: 'string',
+  })
   @UsePipes(new ValidationPipe())
   userProfile(@Param() id: UserId) {
+    console.log('🚀 ~ UserController ~ userProfile ~ id:', id);
     return this.userService.userProfile(id);
   }
 }

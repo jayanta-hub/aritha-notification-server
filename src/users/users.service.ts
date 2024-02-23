@@ -1,13 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { Op } from 'sequelize';
 import { DeleteUser, UserId } from 'src/auth/dto/auth-interface';
-import { Users } from 'src/auth/users.entity';
+import { Users } from 'src/auth/authusers.entity';
 import { Org } from 'src/org/ogr.entity';
 import { Users_roles } from 'src/user_roles/user_role.entity';
+import { randomUUID } from 'crypto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
+  private readonly logger = new Logger(UserService.name);
   constructor() {
     //
   }
@@ -64,5 +67,35 @@ export class UserService {
       appDetails: appDetails || [],
     };
     return user;
+  }
+  async createUser(userInfoDto: any) {
+    try {
+      const saltOrRounds = 10;
+      const hash = await bcrypt.hash(userInfoDto.password, saltOrRounds);
+      userInfoDto['id'] = randomUUID();
+      userInfoDto['password'] = hash;
+      const orgExists = await Org.findOne({
+        where: { id: userInfoDto?.orgid },
+      });
+      if (!orgExists) {
+        throw new Error('Invalid organization ID');
+      }
+      const [_, created] = await Users.findOrCreate({
+        where: {
+          username: userInfoDto.username,
+        },
+        defaults: userInfoDto,
+      });
+      if (created) {
+        return {
+          message: `Create successful.`,
+        };
+      } else {
+        throw new Error('user is existing. Please try with another UserName.');
+      }
+    } catch (e) {
+      this.logger.error(e);
+      return new UnauthorizedException(e);
+    }
   }
 }

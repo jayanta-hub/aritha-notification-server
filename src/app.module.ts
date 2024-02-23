@@ -16,6 +16,9 @@ import { SuperadminModule } from './superadmin/superadmin.module';
 import { UsertypeController } from './usertype/usertype.controller';
 import { UsertypeModule } from './usertype/usertype.module';
 import { UsertypeService } from './usertype/usertype.service';
+import { CarController } from './car/car.controller';
+import { CarModule } from './car/car.module';
+import { CarService } from './car/car.service';
 
 @Module({
   imports: [
@@ -31,14 +34,21 @@ import { UsertypeService } from './usertype/usertype.service';
     UserRolesModule,
     SuperadminModule,
     UsertypeModule,
+    CarModule,
   ],
-  controllers: [UserController, RolesController, UsertypeController],
+  controllers: [
+    UserController,
+    RolesController,
+    UsertypeController,
+    CarController,
+  ],
   providers: [
     AppService,
     AuthService,
     UserService,
     RolesService,
     UsertypeService,
+    CarService,
   ],
 })
 export class AppModule {}

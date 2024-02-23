@@ -1,7 +1,11 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
-@Table({ tableName: 'roles', timestamps: true })
-export class Roles extends Model {
+@Table({
+  tableName: 'car',
+  timestamps: true,
+  indexes: [{ fields: ['car_brand'] }],
+})
+export class Car extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,
@@ -9,12 +13,12 @@ export class Roles extends Model {
   })
   id: string;
 
-  @Column({ type: DataType.STRING, unique: true })
-  title: string;
+  @Column({ type: DataType.STRING })
+  car_brand: string;
 
   @Column({ type: DataType.STRING })
-  slug: string;
+  car_modal: string;
 
   @Column({ type: DataType.STRING })
-  description: string;
+  car_year: string;
 }

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   UsePipes,
   ValidationPipe,
@@ -12,6 +13,11 @@ import { CreateUserTypeDto } from './dto/user_type.dto';
 export class UsertypeController {
   constructor(private userTypeService: UsertypeService) {}
 
+  @Get('')
+  @UsePipes(new ValidationPipe())
+  getUserType() {
+    return this.userTypeService.getUserType();
+  }
   @Post('')
   @UsePipes(new ValidationPipe())
   createUserType(@Body() userType: CreateUserTypeDto) {

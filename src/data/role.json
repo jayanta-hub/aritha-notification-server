@@ -1,0 +1,17 @@
+[
+    {
+        "title": "SuperAdmin",
+        "slug": "SUPERADMIN",
+        "description": "SuperAdmin access to all permission"
+    },
+    {
+        "title": "Admin",
+        "slug": "ADMIN",
+        "description": "Admin access to all permission"
+    },
+    {
+        "title": "User",
+        "slug": "USER",
+        "description": "User access to limited permission"
+    }
+]

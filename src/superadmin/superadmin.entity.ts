@@ -1,5 +1,5 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
-
+// import * as bcrypt from 'bcrypt';
 @Table({ tableName: 'super_admin', timestamps: true })
 export class Super_admin extends Model {
   [x: string]: any;
@@ -27,3 +27,8 @@ export class Super_admin extends Model {
   @Column({ type: DataType.STRING })
   phone: string;
 }
+// Super_admin.beforeCreate(async (user, options) => {
+//   const saltOrRounds = 10;
+//   const hashedPassword = await bcrypt.hash(user.password, saltOrRounds);
+//   user.password = hashedPassword;
+// });

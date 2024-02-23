@@ -1,0 +1,14 @@
+[
+    {
+        "name": "SuperAdmin",
+        "code": "SUPERADMIN"
+    },
+    {
+        "name": "OrgUser",
+        "code": "ORGUSER"
+    },
+    {
+        "name": "OrgAdmin",
+        "code": "ORGADMIN"
+    }
+]

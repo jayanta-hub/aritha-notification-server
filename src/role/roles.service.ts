@@ -1,6 +1,5 @@
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { Roles } from './roles.entity';
-import { randomUUID } from 'crypto';
 
 @Injectable()
 export class RolesService {
@@ -26,7 +25,6 @@ export class RolesService {
         !ExsitingUser &&
         ![ExsitingUser].some((e) => e?.title === rolesInfoDto?.title)
       ) {
-        rolesInfoDto['id'] = randomUUID();
         const result = await Roles.create(rolesInfoDto, {
           returning: false,
         });

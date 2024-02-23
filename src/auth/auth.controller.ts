@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Body,
   Controller,
+  Headers,
   HttpCode,
   HttpStatus,
   Post,
@@ -10,14 +12,14 @@ import {
 import { AuthService } from './auth.service';
 import { SigninDto, SingupDto } from './dto/auth-credentials.dto';
 
-@Controller('auth/users')
+@Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @HttpCode(HttpStatus.OK)
-  @Post('/signin')
+  @Post('/login')
   @UsePipes(new ValidationPipe())
-  signIn(@Body() userInfoDto: SigninDto) {
+  signIn(@Headers() hearder: any, @Body() userInfoDto: SigninDto) {
     return this.authService.signIn(userInfoDto);
   }
   @Post('/signup')
