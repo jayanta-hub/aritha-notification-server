@@ -17,9 +17,7 @@ export class AuthFactoryService {
     //
   }
 
-  get(type: string, data: any) {
-    console.log('🚀 ~ AuthFactoryService ~ get ~ data:', data);
-    console.log('🚀 ~ AuthFactoryService ~ get ~ type:', type);
+  getService(type: string, data: any) {
     switch (type) {
       case 'SUPERADMIN':
         return this.superAdminService.superadminsignUp(data);

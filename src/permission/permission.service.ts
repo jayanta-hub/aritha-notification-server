@@ -1,5 +1,6 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Permission } from './permission.entity';
+import { ErrorMessage } from 'src/utils/helper';
 
 @Injectable()
 export class PermissionService {
@@ -22,13 +23,13 @@ export class PermissionService {
         // To Do  return successful message
         return result;
       } else {
-        return new UnauthorizedException(
-          'Roles is existing. Please try with another Roles.',
+        ErrorMessage(
+          'Permission is existing. Please try with another Permission.',
         );
       }
     } catch (e) {
       this.logger.error(e);
-      return new UnauthorizedException(e);
+      ErrorMessage(e);
     }
   }
 }

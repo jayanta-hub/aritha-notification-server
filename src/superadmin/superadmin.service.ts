@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Super_admin } from './superadmin.entity';
 import * as bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
-import { Op } from 'sequelize';
+import { ErrorMessage } from 'src/utils/helper';
 
 @Injectable()
 export class SuperadminService {
@@ -28,7 +28,7 @@ export class SuperadminService {
       }
     } catch (e) {
       this.logger.error(e);
-      return new UnauthorizedException(e);
+      return ErrorMessage(e);
     }
   }
 }

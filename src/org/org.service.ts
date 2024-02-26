@@ -1,18 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Org } from './ogr.entity';
 import { randomUUID } from 'crypto';
-import * as bcrypt from 'bcrypt';
+import { ErrorMessage } from 'src/utils/helper';
 
 @Injectable()
 export class OrgService {
   private readonly logger = new Logger(OrgService.name);
   async orgSignUp(userInfoDto: any) {
     try {
-      const saltOrRounds = 10;
-      const hash = await bcrypt.hash(userInfoDto.password, saltOrRounds);
       userInfoDto['id'] = randomUUID();
-      userInfoDto['password'] = hash;
+      delete userInfoDto['userType'];
       const [org, created] = await Org.findOrCreate({
         where: {
           orgname: userInfoDto.orgname,
@@ -22,13 +20,13 @@ export class OrgService {
       if (created) {
         return org;
       } else {
-        throw new Error(
+        ErrorMessage(
           'Oraganazation is existing. Please try with another UserName.',
         );
       }
     } catch (e) {
       this.logger.error(e);
-      return new UnauthorizedException(e);
+      ErrorMessage(e);
     }
   }
 }

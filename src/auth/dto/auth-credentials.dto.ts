@@ -8,19 +8,42 @@ import {
   MinLength,
 } from 'class-validator';
 export class SingupDto {
+  // Require for all users.
+
   @ApiProperty({
-    description:
-      'The Username for login. Username have minimun 4 characters including letters, number and special characters',
-    example: 'Jayanta@123!',
+    description: 'The Email of the User',
+    example: 'jayanta.Garu@gmail.com',
   })
   @IsString()
-  @MinLength(4)
+  email: string;
+
+  @ApiProperty({
+    description: 'Type of user',
+    example: 'SUPERADMIN || ORGADMIN ||ORGUSER',
+  })
+  @IsString()
+  userType: string;
+
+  // Require for Organization.
+
+  @ApiProperty({
+    description: 'Organization Name',
+    example: 'Org1',
+  })
+  @IsString()
   @IsOptional()
-  @MaxLength(32)
-  // @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-  //   message: 'Username is too weak',
-  // })
-  username: string;
+  orgname: string;
+
+  @ApiProperty({
+    description: 'Description about organization. If user is  Organization',
+    example: 'This is Aritha Consulting Organization',
+  })
+  @IsString()
+  @IsOptional()
+  @IsOptional()
+  description: string;
+
+  // Require for Organization users.
 
   @ApiProperty({
     description: 'The User firstname.',
@@ -37,9 +60,20 @@ export class SingupDto {
   @IsString()
   @IsOptional()
   lastname: string;
+  @ApiProperty({
+    description:
+      'The Username for login. Username have minimun 4 characters including letters, number and special characters. If user is Org user.',
+    example: 'Jayanta@123!',
+  })
+  @IsString()
+  @MinLength(4)
+  @IsOptional()
+  @MaxLength(32)
+  username: string;
 
   @ApiProperty({
-    description: 'The password of the User',
+    description:
+      'The password of the User. If user is not Supper Admin / Organization',
     example: 'Password@123',
   })
   @IsString()
@@ -52,7 +86,7 @@ export class SingupDto {
   password: string;
 
   @ApiProperty({
-    description: 'PhoneNumber',
+    description: 'PhoneNumber. If user is Organization user.',
     example: '9898989898',
   })
   @IsString()
@@ -62,15 +96,8 @@ export class SingupDto {
   phone: string;
 
   @ApiProperty({
-    description: 'The Email of the User',
-    example: 'jayanta.Garu@gmail.com',
-  })
-  @IsString()
-  @IsOptional()
-  email: string;
-
-  @ApiProperty({
-    description: 'The user belongs to the Which organization',
+    description:
+      'The user belongs to the Which organization. If user is Organization user.',
     example: 'jkn2112b3jh12b3',
   })
   @IsString()
@@ -79,38 +106,24 @@ export class SingupDto {
   orgid: string;
 
   @ApiProperty({
-    description: 'App Details belongs to the user',
-    example: 'jkn2112b3jh12b3',
+    description:
+      'App Details belongs to the user. If user is Organization user.',
+    example: `[{appname: 'Holisto',role: 'User',permission: ['VIEW', 'UPDATE'],},{appname: 'Deduce',role: 'User',permission: ['VIEW'],}]`,
   })
   @IsArray()
   @IsOptional()
   appdetails: object[];
-
-  @ApiProperty({
-    description: 'Org Name',
-    example: 'Garu',
-  })
-  @IsString()
-  @IsOptional()
-  orgname: string;
-
-  @ApiProperty({
-    description: 'Type of user',
-    example: 'SUPERADMIN || ORGADMIN ||ORGUSER',
-  })
-  @IsString()
-  userType: string;
 }
 export class SigninDto {
   @ApiProperty({
-    description: 'The UserName',
+    description: 'The UserName. If user is Organization user.',
     example: 'Jayanta123',
   })
   @IsString()
   username: string;
 
   @ApiProperty({
-    description: 'The password of the User',
+    description: 'The password of the User. If user is Organization user.',
     example: 'Password@123',
   })
   @IsString()
@@ -118,7 +131,7 @@ export class SigninDto {
 }
 export class DeleteDto {
   @ApiProperty({
-    description: 'The userId of the User',
+    description: 'The userId of the User.',
     example: 'Jayanta123',
   })
   @IsString()

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Op } from 'sequelize';
 import { DeleteUser, UserId } from 'src/auth/dto/auth-interface';
 import { Users } from 'src/auth/authusers.entity';
@@ -7,6 +7,7 @@ import { Org } from 'src/org/ogr.entity';
 import { Users_roles } from 'src/user_roles/user_role.entity';
 import { randomUUID } from 'crypto';
 import * as bcrypt from 'bcrypt';
+import { ErrorMessage } from 'src/utils/helper';
 
 @Injectable()
 export class UserService {
@@ -32,7 +33,7 @@ export class UserService {
         message: `Delete successful.`,
       };
     } catch (error) {
-      throw new UnauthorizedException('Something went wrong');
+      ErrorMessage('Something went wrong');
     }
   }
   async userProfile(UserId: UserId) {
@@ -95,7 +96,7 @@ export class UserService {
       }
     } catch (e) {
       this.logger.error(e);
-      return new UnauthorizedException(e);
+      ErrorMessage(e);
     }
   }
 }

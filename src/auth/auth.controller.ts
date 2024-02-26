@@ -2,7 +2,6 @@
 import {
   Body,
   Controller,
-  Headers,
   HttpCode,
   HttpStatus,
   Post,
@@ -19,7 +18,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('/login')
   @UsePipes(new ValidationPipe())
-  signIn(@Headers() hearder: any, @Body() userInfoDto: SigninDto) {
+  signIn(@Body() userInfoDto: SigninDto) {
     return this.authService.signIn(userInfoDto);
   }
   @Post('/signup')
