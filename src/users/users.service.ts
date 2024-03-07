@@ -1,18 +1,19 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable, Logger } from '@nestjs/common';
 import { Op } from 'sequelize';
 import { DeleteUser, UserId } from 'src/auth/dto/auth-interface';
 import { Users } from 'src/auth/authusers.entity';
 import { Org } from 'src/org/ogr.entity';
-import { Users_roles } from 'src/user_roles/user_role.entity';
 import { randomUUID } from 'crypto';
 import * as bcrypt from 'bcrypt';
 import { ErrorMessage } from 'src/utils/helper';
-
+import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Cache } from 'cache-manager';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Users_roles } from 'src/user_roles/user_role.entity';
 @Injectable()
 export class UserService {
   private readonly logger = new Logger(UserService.name);
-  constructor() {
+  constructor(@Inject(CACHE_MANAGER) private readonly cacheManager: Cache) {
     //
   }
   async getAll() {
@@ -97,6 +98,18 @@ export class UserService {
     } catch (e) {
       this.logger.error(e);
       ErrorMessage(e);
+    }
+  }
+  async get() {
+    try {
+      await this.cacheManager.set('as', { key: 32 });
+      // await this.cacheManager.del('cached_item');
+      // await this.cacheManager.reset();
+      const cachedItem = await this.cacheManager.get('as');
+      console.log('cachedItem', cachedItem);
+      return 'the';
+    } catch (e) {
+      console.log('🚀 ~ UserService ~ get ~ e:', e);
     }
   }
 }
