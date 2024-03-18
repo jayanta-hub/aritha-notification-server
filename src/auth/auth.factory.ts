@@ -24,6 +24,7 @@ export class AuthFactoryService {
       case 'ORGADMIN':
         return this.orgService.orgSignUp(data);
       case 'ORGUSER':
+      default:
         return this.userService.createUser(data);
     }
   }

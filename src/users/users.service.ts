@@ -10,6 +10,7 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Users_roles } from 'src/user_roles/user_role.entity';
+import { UsersSingupDto } from './dto/users.dto';
 @Injectable()
 export class UserService {
   private readonly logger = new Logger(UserService.name);
@@ -70,7 +71,7 @@ export class UserService {
     };
     return user;
   }
-  async createUser(userInfoDto: any) {
+  async createUser(userInfoDto: UsersSingupDto) {
     try {
       const saltOrRounds = 10;
       const hash = await bcrypt.hash(userInfoDto.password, saltOrRounds);
@@ -86,7 +87,7 @@ export class UserService {
         where: {
           username: userInfoDto.username,
         },
-        defaults: userInfoDto,
+        // defaults: userInfoDto,
       });
       if (created) {
         return {
@@ -102,14 +103,10 @@ export class UserService {
   }
   async get() {
     try {
-      await this.cacheManager.set('as', { key: 32 });
-      // await this.cacheManager.del('cached_item');
-      // await this.cacheManager.reset();
-      const cachedItem = await this.cacheManager.get('as');
-      console.log('cachedItem', cachedItem);
-      return 'the';
+      const user = await Users.findAll();
+      return user;
     } catch (e) {
-      console.log('🚀 ~ UserService ~ get ~ e:', e);
+      ErrorMessage(e);
     }
   }
 }

@@ -10,7 +10,8 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SigninDto, SingupDto } from './dto/auth-credentials.dto';
-
+import { UsersCustomValidation } from './dto/usersCustomValidation.decorator';
+import { UsersSingupDto } from 'src/users/dto/users.dto';
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
@@ -19,11 +20,17 @@ export class AuthController {
   @Post('/login')
   @UsePipes(new ValidationPipe())
   signIn(@Body() userInfoDto: SigninDto) {
+    console.log('🚀 ~ AuthController ~ signIn ~ userInfoDto:', userInfoDto);
     return this.authService.signIn(userInfoDto);
   }
   @Post('/signup')
   @UsePipes(new ValidationPipe())
-  signUp(@Body() authCredentialsDto: SingupDto) {
+  signUp(
+    @UsersCustomValidation(
+      new ValidationPipe({ validateCustomDecorators: true }),
+    )
+    authCredentialsDto: any,
+  ) {
     return this.authService.signUp(authCredentialsDto);
   }
 }

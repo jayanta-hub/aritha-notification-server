@@ -31,7 +31,3 @@ export class Users extends Model {
   @Column({ type: DataType.UUID })
   orgid: string;
 }
-
-// Users.beforeSave(()=>{
-
-// });

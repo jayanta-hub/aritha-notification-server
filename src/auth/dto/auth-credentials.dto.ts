@@ -40,7 +40,6 @@ export class SingupDto {
   })
   @IsString()
   @IsOptional()
-  @IsOptional()
   description: string;
 
   // Require for Organization users.
@@ -101,7 +100,6 @@ export class SingupDto {
     example: 'jkn2112b3jh12b3',
   })
   @IsString()
-  @IsOptional()
   @IsOptional()
   orgid: string;
 

@@ -12,7 +12,7 @@ import { DeleteUser, UserId } from 'src/auth/dto/auth-interface';
 import { UserService } from './users.service';
 import { AuthGuard } from '../guards/auth.guard';
 import { ApiBearerAuth, ApiParam } from '@nestjs/swagger';
-import { CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 
 @ApiBearerAuth()
 @Controller('users')
@@ -47,7 +47,6 @@ export class UserController {
   }
 
   @Get()
-  @CacheKey('as')
   get() {
     return this.userService.get();
   }

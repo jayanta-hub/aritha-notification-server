@@ -29,6 +29,10 @@ export const databaseProviders = [
         Car,
       ]);
 
+      Users.afterCreate(() => {
+        console.log('first');
+      });
+
       // * Add Relation
       addRelations();
 

@@ -27,6 +27,11 @@ import {
 } from '@nestjs/cache-manager';
 import redisConfig from './redis/redisConfig/redisConfig';
 import { redisStore } from 'cache-manager-redis-store';
+import { MailController } from './mail/mail.controller';
+import { EmailModule } from './mail/mail.module';
+import { ResetUsernameController } from './reset-username/reset-username.controller';
+import { ResetUsernameModule } from './reset-username/reset-username.module';
+import { ResetUsernameService } from './reset-username/reset-username.service';
 
 const RedisOptions: CacheModuleAsyncOptions = {
   isGlobal: true,
@@ -60,12 +65,16 @@ const RedisOptions: CacheModuleAsyncOptions = {
     SuperadminModule,
     UsertypeModule,
     CarModule,
+    EmailModule,
+    ResetUsernameModule,
   ],
   controllers: [
     UserController,
     RolesController,
     UsertypeController,
     CarController,
+    MailController,
+    ResetUsernameController,
   ],
   providers: [
     AppService,
@@ -78,6 +87,7 @@ const RedisOptions: CacheModuleAsyncOptions = {
       provide: 'APP_INTERCEPTER',
       useClass: CacheInterceptor,
     },
+    ResetUsernameService,
   ],
 })
 export class AppModule {}
