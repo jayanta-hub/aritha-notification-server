@@ -1,17 +1,12 @@
 [
     {
-        "title": "SuperAdmin",
-        "slug": "SUPERADMIN",
-        "description": "SuperAdmin access to all permission"
-    },
-    {
-        "title": "Admin",
-        "slug": "ADMIN",
+        "title": "OrgAdmin",
+        "slug": "ORGADMIN",
         "description": "Admin access to all permission"
     },
     {
-        "title": "User",
-        "slug": "USER",
+        "title": "OrgUser",
+        "slug": "ORGUSER",
         "description": "User access to limited permission"
     }
 ]

@@ -32,7 +32,7 @@ export class SingupDto {
   })
   @IsString()
   @IsOptional()
-  orgname: string;
+  orgName: string;
 
   @ApiProperty({
     description: 'Description about organization. If user is  Organization',
@@ -50,7 +50,7 @@ export class SingupDto {
   })
   @IsString()
   @IsOptional()
-  firstname: string;
+  firstName: string;
 
   @ApiProperty({
     description: 'The User lastname',
@@ -58,7 +58,7 @@ export class SingupDto {
   })
   @IsString()
   @IsOptional()
-  lastname: string;
+  lastName: string;
   @ApiProperty({
     description:
       'The Username for login. Username have minimun 4 characters including letters, number and special characters. If user is Org user.',
@@ -68,7 +68,7 @@ export class SingupDto {
   @MinLength(4)
   @IsOptional()
   @MaxLength(32)
-  username: string;
+  userName: string;
 
   @ApiProperty({
     description:
@@ -101,7 +101,7 @@ export class SingupDto {
   })
   @IsString()
   @IsOptional()
-  orgid: string;
+  orgId: string;
 
   @ApiProperty({
     description:
@@ -110,7 +110,7 @@ export class SingupDto {
   })
   @IsArray()
   @IsOptional()
-  appdetails: object[];
+  appDetails: object[];
 }
 export class SigninDto {
   @ApiProperty({
@@ -118,7 +118,7 @@ export class SigninDto {
     example: 'Jayanta123',
   })
   @IsString()
-  username: string;
+  userName: string;
 
   @ApiProperty({
     description: 'The password of the User. If user is Organization user.',
@@ -133,5 +133,5 @@ export class DeleteDto {
     example: 'Jayanta123',
   })
   @IsString()
-  userid: string;
+  userId: string;
 }

@@ -20,16 +20,15 @@ export class AuthController {
   @Post('/login')
   @UsePipes(new ValidationPipe())
   signIn(@Body() userInfoDto: SigninDto) {
-    console.log('🚀 ~ AuthController ~ signIn ~ userInfoDto:', userInfoDto);
     return this.authService.signIn(userInfoDto);
   }
   @Post('/signup')
   @UsePipes(new ValidationPipe())
   signUp(
-    @UsersCustomValidation(
-      new ValidationPipe({ validateCustomDecorators: true }),
-    )
-    authCredentialsDto: any,
+    // @UsersCustomValidation(
+    //   new ValidationPipe({ validateCustomDecorators: true }),
+    // )
+    @Body() authCredentialsDto: any,
   ) {
     return this.authService.signUp(authCredentialsDto);
   }

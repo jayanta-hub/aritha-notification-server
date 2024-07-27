@@ -71,7 +71,8 @@ export class UserService {
     };
     return user;
   }
-  async createUser(userInfoDto: UsersSingupDto) {
+  async createUser(userInfoDto: any) {
+    console.log('🚀 ~ UserService ~ createUser ~ userInfoDto:', userInfoDto);
     try {
       const saltOrRounds = 10;
       const hash = await bcrypt.hash(userInfoDto.password, saltOrRounds);
@@ -87,7 +88,7 @@ export class UserService {
         where: {
           username: userInfoDto.username,
         },
-        // defaults: userInfoDto,
+        defaults: userInfoDto,
       });
       if (created) {
         return {
