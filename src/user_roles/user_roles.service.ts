@@ -1,7 +1,8 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { Users_roles } from './user_role.entity';
 import { Op } from 'sequelize';
+import { ErrorMessage } from 'src/utils/helper';
 @Injectable()
 export class UserRolesService {
   private readonly logger = new Logger(UserRolesService.name);
@@ -22,17 +23,13 @@ export class UserRolesService {
           },
         },
       });
-      console.log(
-        '🚀 ~ UserRolesService ~ createRoles ~ ExistingUser:',
-        ExistingUser,
-      );
       if (ExistingUser.length > 0) {
         throw new Error('User already existing. Please try with a valid one.');
       }
       return await this.storeUserRoles(User_role);
     } catch (err) {
       this.logger.error(err);
-      return new UnauthorizedException(err);
+      ErrorMessage(err);
     }
   }
   async storeUserRoles(User_role) {
@@ -42,7 +39,7 @@ export class UserRolesService {
       });
     } catch (err) {
       this.logger.error(err);
-      return new UnauthorizedException(err);
+      ErrorMessage(err);
     }
   }
 }

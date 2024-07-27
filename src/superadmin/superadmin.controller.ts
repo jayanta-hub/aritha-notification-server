@@ -1,19 +1,11 @@
-import {
-  Body,
-  Controller,
-  Post,
-  UsePipes,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { SuperadminService } from './superadmin.service';
-import { SuperAdminSingupDto } from './dto/superadmin-credentials.dto';
 
-@Controller('auth/superadmin')
+@Controller('superadmin')
 export class SuperadminController {
-  constructor(private superAdminService: SuperadminService) {}
+  constructor(private readonly superadminService: SuperadminService) {}
   @Post('/signup')
-  @UsePipes(new ValidationPipe())
-  signUp(@Body() authCredentialsDto: SuperAdminSingupDto) {
-    return this.superAdminService.superadminsignUp(authCredentialsDto);
+  async createSuperAdmin(@Body() createSuperAdmin: any): Promise<void> {
+    await this.superadminService.superadminsignUp(createSuperAdmin);
   }
 }

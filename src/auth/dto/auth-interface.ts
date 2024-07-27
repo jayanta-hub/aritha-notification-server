@@ -13,3 +13,6 @@ export interface ValidateUser {
 export interface DeleteUser {
   id: string;
 }
+export interface UserId {
+  id: string;
+}

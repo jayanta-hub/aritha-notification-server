@@ -1,7 +1,9 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Injectable, Logger } from '@nestjs/common';
 import { Super_admin } from './superadmin.entity';
 import * as bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
+import { ErrorMessage } from 'src/utils/helper';
 
 @Injectable()
 export class SuperadminService {
@@ -9,31 +11,24 @@ export class SuperadminService {
 
   async superadminsignUp(authCredentialsDto: any) {
     try {
-      const ExsitingUser = await Super_admin.findOne({
+      const saltOrRounds = 10;
+      const hash = await bcrypt.hash(authCredentialsDto.password, saltOrRounds);
+      authCredentialsDto['id'] = randomUUID();
+      authCredentialsDto['password'] = hash;
+      const [user, created] = await Super_admin.findOrCreate({
         where: {
           username: authCredentialsDto.username,
         },
+        defaults: authCredentialsDto,
       });
-      if (!ExsitingUser) {
-        const saltOrRounds = 10;
-        const hash = await bcrypt.hash(
-          authCredentialsDto.password,
-          saltOrRounds,
-        );
-        authCredentialsDto['id'] = randomUUID();
-        authCredentialsDto['password'] = hash;
-
-        const result = await Super_admin.create(authCredentialsDto, {
-          returning: false,
-        });
-
-        return result;
+      if (created) {
+        return user;
       } else {
         throw new Error('user is existing. Please try with another UserName.');
       }
     } catch (e) {
       this.logger.error(e);
-      return new UnauthorizedException(e);
+      return ErrorMessage(e);
     }
   }
 }

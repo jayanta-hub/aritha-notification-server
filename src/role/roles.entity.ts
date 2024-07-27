@@ -5,10 +5,11 @@ export class Roles extends Model {
   @Column({
     primaryKey: true,
     type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
   })
   id: string;
 
-  @Column({ type: DataType.STRING })
+  @Column({ type: DataType.STRING, unique: true })
   title: string;
 
   @Column({ type: DataType.STRING })

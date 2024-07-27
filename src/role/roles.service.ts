@@ -1,6 +1,6 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Roles } from './roles.entity';
-import { randomUUID } from 'crypto';
+import { ErrorMessage } from 'src/utils/helper';
 
 @Injectable()
 export class RolesService {
@@ -26,20 +26,17 @@ export class RolesService {
         !ExsitingUser &&
         ![ExsitingUser].some((e) => e?.title === rolesInfoDto?.title)
       ) {
-        rolesInfoDto['id'] = randomUUID();
         const result = await Roles.create(rolesInfoDto, {
           returning: false,
         });
         // To Do  return successful message
         return result;
       } else {
-        return new UnauthorizedException(
-          'Roles is existing. Please try with another Roles.',
-        );
+        ErrorMessage('Roles is existing. Please try with another Roles.');
       }
     } catch (e) {
       this.logger.error(e);
-      return new UnauthorizedException(e);
+      ErrorMessage(e);
     }
   }
 }

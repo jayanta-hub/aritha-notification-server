@@ -1,0 +1,12 @@
+[
+    {
+        "title": "OrgAdmin",
+        "slug": "ORGADMIN",
+        "description": "Admin access to all permission"
+    },
+    {
+        "title": "OrgUser",
+        "slug": "ORGUSER",
+        "description": "User access to limited permission"
+    }
+]

@@ -7,8 +7,8 @@ async function bootstrap() {
   app.enableCors();
   app.setGlobalPrefix('api/v1');
   const config = new DocumentBuilder()
-    .setTitle('Nestjs Practice')
-    .setDescription('Nestjs Practice')
+    .setTitle('Aritha Notification Service')
+    .setDescription('V1')
     .setVersion('1.0')
     .addBearerAuth({
       type: 'http',

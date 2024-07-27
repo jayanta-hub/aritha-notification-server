@@ -1,20 +1,26 @@
-import { Controller, Delete, Get, Param, UseGuards } from '@nestjs/common';
-import { DeleteUser } from 'src/auth/dto/auth-interface';
+import {
+  Controller,
+  Delete,
+  Get,
+  Param,
+  UseGuards,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
+import { DeleteUser, UserId } from 'src/auth/dto/auth-interface';
 import { UserService } from './users.service';
 import { AuthGuard } from '../guards/auth.guard';
 import { ApiBearerAuth, ApiParam } from '@nestjs/swagger';
+import { CacheInterceptor, CacheTTL } from '@nestjs/cache-manager';
 
 @ApiBearerAuth()
-@Controller('user')
+@Controller('users')
+@UseInterceptors(CacheInterceptor)
 export class UserController {
   constructor(private userService: UserService) {}
   @UseGuards(AuthGuard)
-  @Get()
-  getAll() {
-    return this.userService.getAll();
-  }
-  @UseGuards(AuthGuard)
-  @Delete('delete/:id')
+  @Delete(':id')
   @ApiParam({
     name: 'id',
     type: 'string',
@@ -23,5 +29,25 @@ export class UserController {
   })
   delete(@Param() id: DeleteUser) {
     return this.userService.deleteById(id);
+  }
+  @ApiBearerAuth() // for swagger
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'userid to fetch user profile',
+    type: 'string',
+  })
+  @UseGuards(AuthGuard)
+  @Get('/profile/:id')
+  @UsePipes(new ValidationPipe())
+  @CacheTTL(10 * 1000)
+  async userProfile(@Param() id: UserId) {
+    console.log('first,.........');
+    return this.userService.userProfile(id);
+  }
+
+  @Get()
+  get() {
+    return this.userService.get();
   }
 }

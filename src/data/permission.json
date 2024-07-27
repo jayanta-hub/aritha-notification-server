@@ -1,0 +1,22 @@
+[
+    {
+        "title": "Update",
+        "slug": "UPDATE",
+        "description": "Access to Update."
+    },
+    {
+        "title": "Create",
+        "slug": "CREATE",
+        "description": "Access to Create."
+    },
+    {
+        "title": "View",
+        "slug": "VIEW",
+        "description": "Access to View."
+    },
+    {
+        "title": "Delete",
+        "slug": "DELETE",
+        "description": "Access to Delete."
+    }
+]
