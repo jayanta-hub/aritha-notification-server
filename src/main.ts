@@ -7,7 +7,7 @@ async function bootstrap() {
   app.enableCors();
   app.setGlobalPrefix('api/v1');
   const config = new DocumentBuilder()
-    .setTitle('Aritha Notification Service')
+    .setTitle('Notification Service')
     .setDescription('V1')
     .setVersion('1.0')
     .addBearerAuth({

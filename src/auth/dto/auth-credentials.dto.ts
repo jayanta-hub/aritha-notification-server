@@ -29,7 +29,7 @@ export class SingupDto {
 
   @ApiProperty({
     description: 'The User lastname',
-    example: 'Jayanta',
+    example: 'Garu',
   })
   @IsString()
   lastname: string;

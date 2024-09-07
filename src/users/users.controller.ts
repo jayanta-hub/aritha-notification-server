@@ -16,11 +16,11 @@ import { ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
-  // @UseGuards(AuthGuard)
-  // @Get()
-  // getAll() {
-  //   return this.userService.getAll();
-  // }
+  @UseGuards(AuthGuard)
+  @Get()
+  getAll() {
+    return this.userService.getAll();
+  }
   @UseGuards(AuthGuard)
   @Delete('delete/:id')
   @ApiParam({

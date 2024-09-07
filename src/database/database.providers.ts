@@ -60,7 +60,7 @@ export class Database {
 
       this.db
         .authenticate()
-        .then(() => this.logger.debug('Database connection successful.'))
+        .then(() => this.logger.debug(`Database connection successful`))
         .catch((e) => {
           console.log('error', e);
         });
