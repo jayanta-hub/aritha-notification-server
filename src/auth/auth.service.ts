@@ -70,10 +70,10 @@ export class AuthService {
   async signIn(userInfoDto: any) {
     if (!userInfoDto) throw new UnauthorizedException('EMPTY');
     const users = await Promise.all([
-      Users.findOne({ where: { username: userInfoDto.username } }),
-      Super_admin.findOne({ where: { username: userInfoDto.username } }),
+      Users?.findOne({ where: { username: userInfoDto.username } }),
+      Super_admin?.findOne({ where: { username: userInfoDto.username } }),
     ]);
-    const user = users.find((u) => u); // Get the first found user
+    const user = users?.find((u) => u); // Get the first found user
     try {
       // Compare the hash password
       if (!user) {

@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsString, Matches, MaxLength, MinLength } from 'class-validator';
 export class OrgSignUpDto {
   @ApiProperty({
-    description: 'The the User',
+    description: 'The username of the Org',
     example: 'Jayanta',
   })
   @IsString()
@@ -31,16 +31,23 @@ export class OrgSignUpDto {
   phone: string;
 
   @ApiProperty({
-    description: 'The Email of the User',
+    description: 'The Email of the Org',
     example: 'jayanta.Garu@gmail.com',
   })
   @IsString()
   email: string;
 
   @ApiProperty({
-    description: 'The usertype of the User',
-    example: 'ADMIN',
+    description: 'orgname',
+    example: 'Jayanta-Hub',
   })
   @IsString()
   orgname: string;
+
+  @ApiProperty({
+    description: 'Description of Org.',
+    example: 'description',
+  })
+  @IsString()
+  description: string;
 }

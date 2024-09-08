@@ -8,6 +8,7 @@ import { Permission } from 'src/permission/permission.entity';
 import { Users_roles } from 'src/user_roles/user_role.entity';
 import { Super_admin } from 'src/superadmin/superadmin.entity';
 import { User_type } from 'src/usertype/userType.entity';
+import { AppdetailsSeedData, OrgSeedData, permissionsSeedData, rolesSeedData, SuperAdminSeedData, UserRolesSeedData, usersSeedData, userTypeSeedData } from 'src/utils/seed/seed';
 
 export const databaseProviders = [
   {
@@ -34,9 +35,9 @@ export const databaseProviders = [
 
       // * Add Relation
       addRelations();
-
+      // * Seeding
+      seeding();
       await sequelize.sync(); //{ force: true, alter: true }
-
       return sequelize;
     },
   },
@@ -57,7 +58,6 @@ export class Database {
         password: process.env.PASSWORD,
         database: process.env.DATABASE,
       });
-
       this.db
         .authenticate()
         .then(() => this.logger.debug(`Database connection successful`))
@@ -77,4 +77,23 @@ function addRelations() {
   Users_roles.belongsTo(Users, { foreignKey: 'userid', targetKey: 'id' });
   Users_roles.belongsTo(Roles, { foreignKey: 'role', targetKey: 'title' });
   Appdetails.belongsTo(Org, { foreignKey: 'orgid', targetKey: 'id' });
+}
+
+   /**
+    * Seeds the database with initial data.
+    *
+    * This function creates records in the database for roles, permissions, user types, super admins, organizations,
+    * application details, users, and user roles using the provided seed data.
+    *
+    */
+   
+ function seeding() {
+    Roles.bulkCreate(rolesSeedData);
+    Permission.bulkCreate(permissionsSeedData);
+    User_type.bulkCreate(userTypeSeedData);
+    Super_admin.bulkCreate(SuperAdminSeedData);
+    Org.bulkCreate(OrgSeedData);
+    Appdetails.bulkCreate(AppdetailsSeedData);
+    Users.bulkCreate(usersSeedData);
+    Users_roles.bulkCreate(UserRolesSeedData);
 }
